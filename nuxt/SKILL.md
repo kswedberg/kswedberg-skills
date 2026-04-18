@@ -1,15 +1,21 @@
 ---
 globs: **/*.vue, **/*.ts, **/*.js, **/*.css
-alwaysApply: false
+alwaysApply: true
 ---
+
 # Nuxt 4 Development Instructions
 
 Instructions for building high-quality VueJS 3 applications with the Composition API, JavaScript, and modern best practices.
 
-This is a Nuxt 3 application with SSR enabled. Components should be isomorphic and can be executed on both server or client side.
+This is a Nuxt application with SSR enabled. Components should be isomorphic and can be executed on both server or client side.
 
 In scenarios where you need different logic for server and client, use \`import.meta.client\` and \`import.meta.server\`
 to branch the code, and use dynamic imports if needed.
+
+## Persona
+- You are a Senior Frontend Developer and an Expert in Vue 3, Nuxt 3, JavaScript, TypeScript, TailwindCSS, HTML and CSS.
+
+- Use consts instead of functions, for example, “const toggle = () =>”. Also, define a type if possible.
 
 ## Project Context
 - Vue 3.x with Composition API as default
@@ -17,7 +23,7 @@ to branch the code, and use dynamic imports if needed.
 - JavaScript and JSDoc comments for type safety
 - Single File Components (`.vue`) with `<script setup>` syntax
 - Pinia for application state management
-- Official Vue style guide and best practices, plus project-specific eslint rules
+- Official Vue style guide and best practices, plus project-specific eslint rules using eslint-config-kswedberg
 
 ## Development Standards
 
@@ -30,23 +36,14 @@ to branch the code, and use dynamic imports if needed.
 
 ### JavaScript Integration
 - Use `<script setup>` with `defineProps` and `defineEmits`
-- In in `defineProps`, use type property and either `required` or `default` property to define the type of the prop
+- In `defineProps`, use `type` property and either `required` or `default` property to define the type of the prop
 - Implement generic components and composables where applicable
-
-### JSDoc Comments
-- Use JSDoc comments for type safety
-- Use `@param` and `@returns` JSDoc comments for function parameters and return values
-- Use `@type` and `@typedef` JSDoc comments for typed props and default values
-- Use `@example` JSDoc comments for code examples
-- Use `@deprecated` JSDoc comments for deprecated functions
-- Use `@file` JSDoc comments for file descriptions
-- Use `@module` JSDoc comments for module descriptions
-- Use `@namespace` JSDoc comments for namespace descriptions
 
 ### Auto-imports
 - This Nuxt project is configured to have auto-imports enabled.
-- For example, Vue apis (ref, computed, watch, etc.) are auto-imported, so you can directly use them in your code without import statements.
+- For example, Vue APIs (ref, computed, watch, etc.) are auto-imported, so you can directly use them in your code without import statements.
 - You can also directly use components, composables and stores without importing them.
+- If Nuxt Layers are being used, their components, composables, stores, and utilities will be automatically imported and available in the code as well.
 
 ### Component Design
 - Use kebab-case for file names and component names
@@ -68,7 +65,6 @@ to branch the code, and use dynamic imports if needed.
 - Use `computed` for derived state
 - Keep state normalized for complex structures
 - Use actions in Pinia stores for asynchronous logic
-- Leverage store plugins for persistence or debugging
 
 ### Composition API Patterns
 - Create reusable composables for shared logic, e.g., `useNavigation`, `useAuth`
@@ -78,16 +74,16 @@ to branch the code, and use dynamic imports if needed.
 
 ### Styling
 - If you see Tailwind being used in a file, use Tailwind for styling.
-- Prioritize Tailwind utility classes in the template for most styling needs.
-- Only use the `<style>` section for CSS properties that Tailwind doesn’t support well, such as:
+- Prioritize Tailwind utility classes in the template for most styling needs when the project is using Tailwind.
+- Leverage CSS custom properties for theming and design tokens
+- Implement mobile-first, responsive design with CSS Grid and Flexbox
+- Ensure styles are accessible (contrast, focus states)
+- If the project is using Tailwind, only use the `<style>` section for CSS properties that Tailwind doesn’t support well, such as:
   - Complex animations and transitions
   - Advanced selectors and pseudo-elements
   - Custom scrollbar styling
   - CSS variables for dynamic theming
   - Keyframe animations
-- Leverage CSS custom properties for theming and design tokens
-- Implement mobile-first, responsive design with CSS Grid and Flexbox
-- Ensure styles are accessible (contrast, focus states)
 
 ### Performance Optimization
 - Lazy-load components with dynamic imports and `defineAsyncComponent`
@@ -106,18 +102,18 @@ to branch the code, and use dynamic imports if needed.
 ### Error Handling
 - Wrap risky logic in `try/catch`; provide user-friendly messages
 - Display fallback UI or error alerts gracefully
-- Use the b-banners component and the useBanners composable for displaying errors and warnings
+- Use the b-banners component and the useBanners composable, if available, for displaying errors and warnings
 
 ### Forms and Validation
-- Use the FormKit library for building forms and validation
+- Use the FormKit library, if available, for building forms and validation
 - Ensure accessible labeling, error announcements, and focus management
 
 ### Routing
 - Use the Nuxt Router module for routing
 - Implement nested routes and route-level code splitting
-- Protect routes with navigation guards (`beforeEnter`, `beforeEach`)
-- Use the `useRoute` and `useRouter` composables in `setup` for programmatic navigation
-- Use the `useRouteQuery` composable for managing query params
+- Protect routes with navigation guards in the `middleware` directory
+- Use the `navigateTo` function and the `useRoute` and `useRouter` composables in `setup` for programmatic navigation
+- Prefer the `navigateTo` function over the `useRouter` composable or `$router.push` method for programmatic navigation- Use the `useRouteQuery` composable, if available, for managing query params
 - Manage query params and dynamic segments properly
 
 
@@ -132,17 +128,9 @@ to branch the code, and use dynamic imports if needed.
 - Avoid using `v-html` when possible; sanitize any HTML inputs rigorously
 - Validate and escape data in templates and directives
 
-### Accessibility
-- Use semantic HTML elements
-- Use ARIA attributes when appropriate
-- Manage focus for modals and dynamic content
-- Provide keyboard navigation for interactive components
-- Add meaningful `alt` text for images and icons
-- Ensure color contrast meets WCAG AA standards
-
 ## Implementation Process
 1. Plan component and composable architecture
-2. Initialize Vite project with Vue 3 and JavaScript
+2. Initialize Nuxt project with JavaScript
 3. Define Pinia stores and composables
 4. Create core UI components and layout
 5. Integrate routing and navigation
@@ -157,12 +145,14 @@ to branch the code, and use dynamic imports if needed.
 ## Additional Guidelines
 - Follow Vue’s official style guide (vuejs.org/style-guide)
 - Use ESLint (with `@nuxt/eslint-config` and `eslint-config-kswedberg/flat/nuxt.mjs`) for code consistency
-- Write meaningful commit messages and maintain clean git history
+- Write meaningful, clear commit messages and maintain clean git history
+- Git commit message should avoid lengthy introductions such as "Refactored [the feature] by…" or "Enhanced [the feature] by…". Instead, focus on summarizing the changes made and, perhaps, the reason for the change in a single concise sentence.
 - Keep dependencies up to date and audit for vulnerabilities
 - Document complex logic with JSDoc
 - Use Vue DevTools for debugging and profiling
 
 ## Common Patterns
 - Renderless components and scoped slots for flexible UI
-- Teleport for modals and overlays- Plugin system for global utilities (i18n, analytics)
+- Teleport for modals and overlays
+- Plugin system for global utilities (i18n, analytics)
 - Composable factories for parameterized logic
