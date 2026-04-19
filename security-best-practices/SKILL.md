@@ -1,6 +1,8 @@
 ---
 name: "security-best-practices"
-description: "Perform language and framework specific security best-practice reviews and suggest improvements. Trigger only when the user explicitly requests security best practices guidance, a security review/report, or secure-by-default coding help. Trigger only for supported languages (python, javascript/typescript, go). Do not trigger for general code review, debugging, or non-security tasks."
+description: "Perform language and framework specific security best-practice reviews and suggest improvements. Trigger only when the user explicitly requests security best practices guidance, a security review/report, or secure-by-default coding help. Trigger only for supported languages (python, javascript, golang). Do not trigger for general code review, debugging, or non-security tasks."
+metadata:
+  source: https://github.com/github/awesome-copilot
 ---
 
 # Security Best Practices
@@ -19,7 +21,7 @@ Then check this skill's references directory to see if there are any relevant do
 
 If working on a web application which includes a frontend and a backend, make sure you have checked for reference documents for BOTH the frontend and backend!
 
-If you are asked to make a web app which will include both a frontend and backend, but the frontend framework is not specified, also check out `javascript-general-web-frontend-security.md`. It is important that you understand how to secure both the frontend and backend.
+If you are asked to make a web app which will include both a frontend and backend, but the frontend framework is not specified, also check out `references/javascript-general-web-frontend-security.md`. It is important that you understand how to secure both the frontend and backend.
 
 If no relevant information is available in the skill's references directory, think a little bit about what you know about the language, the framework, and all well known security best practices for it. If you are unsure you can try to search online for documentation on security best practices.
 
