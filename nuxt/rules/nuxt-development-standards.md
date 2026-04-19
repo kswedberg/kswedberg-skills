@@ -27,8 +27,10 @@
 
 - This Nuxt project is configured to have auto-imports enabled.
 - For example, Vue APIs (ref, computed, watch, etc.) are auto-imported, so you can directly use them in your code without import statements.
-- You can also directly use components, composables and stores without importing them.
-- If Nuxt Layers are being used, their components, composables, stores, and utilities will be automatically imported and available in the code as well.
+- You can also directly use components, composables, stores, and utilities without importing them.
+- Within the `server/` directory, you can directly use server-side APIs and utilities without importing them.
+- From either the `server/` or `app/` directory, you can directly use utilities from the `/shared/utils/` directory without importing them.
+- If Nuxt Layers are being used, their components, composables, stores, utilities, etc. will be automatically imported and available in the code as well.
 
 ## Component Design
 
