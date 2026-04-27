@@ -7,25 +7,6 @@ metadata:
 
 # Error Handling in Node.js
 
-## Custom Errors with @fastify/create-error
-
-Use [@fastify/create-error](https://github.com/fastify/fastify-error) for creating custom errors with codes:
-
-```javascript
-import createError from '@fastify/create-error';
-
-const NotFoundError = createError('NOT_FOUND', '%s not found', 404);
-const ValidationError = createError('VALIDATION_ERROR', '%s', 400);
-const DatabaseError = createError('DATABASE_ERROR', 'Database operation failed: %s', 500);
-
-// Usage
-throw new NotFoundError('User');
-```
-
-```javascript
-throw new ValidationError('Email is required');
-```
-
 ## Minimal Error Code Implementation
 
 If you prefer no dependencies, use this minimal pattern:
@@ -128,33 +109,7 @@ Always use try-catch with async/await and propagate errors properly. The `fetchU
 
 ## Unhandled Rejections and Exceptions
 
-Do not handle `unhandledRejection` and `uncaughtException` manually. Use [close-with-grace](https://github.com/fastify/close-with-grace) which handles these automatically and triggers graceful shutdown.
-
-See [graceful-shutdown.md](./graceful-shutdown.md) for proper shutdown handling.
-
-## Fastify Error Handling
-
-Fastify has built-in error handling:
-
-```javascript
-import Fastify from 'fastify';
-
-const app = Fastify({logger: true});
-
-app.setErrorHandler((error, request, reply) => {
-  const statusCode = 'statusCode' in error ? error.statusCode : 500;
-  const code = 'code' in error ? error.code : 'INTERNAL_ERROR';
-
-  request.log.error(error);
-
-  reply.status(statusCode).send({
-    error: {
-      code,
-      message: error.message,
-    },
-  });
-});
-```
+Do not handle `unhandledRejection` and `uncaughtException` manually.
 
 ## Never Swallow Errors
 

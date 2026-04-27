@@ -7,24 +7,6 @@ metadata:
 
 # Graceful Shutdown in Node.js
 
-## Use close-with-grace
-
-Always use [close-with-grace](https://github.com/fastify/close-with-grace) for handling graceful shutdowns:
-
-```javascript
-import closeWithGrace from 'close-with-grace';
-
-closeWithGrace({delay: 10000}, async({signal, err}) => {
-  if (err) {
-    console.error('Error triggered shutdown:', err);
-  }
-  console.log(`Received ${signal}, shutting down...`);
-
-  await server.close();
-  await db.end();
-});
-```
-
 ## HTTP Server Shutdown
 
 Close HTTP servers gracefully with close-with-grace:
@@ -54,28 +36,6 @@ closeWithGrace({delay: 10000}, async({signal, err}) => {
 
   console.log('Server closed');
 });
-```
-
-## Fastify Integration
-
-Fastify has built-in close-with-grace support:
-
-```javascript
-import Fastify from 'fastify';
-
-const app = Fastify({
-  logger: true,
-});
-
-// Fastify automatically handles graceful shutdown
-// Just register your cleanup in onClose hooks
-
-app.addHook('onClose', async() => {
-  await db.end();
-  await cache.quit();
-});
-
-await app.listen({port: 3000});
 ```
 
 ## Multiple Resources Cleanup
@@ -164,30 +124,6 @@ closeWithGrace({delay: 10000}, async({signal}) => {
   await new Promise((r) => setTimeout(r, 5000));
 
   await cleanup();
-});
-```
-
-## Custom Delay for Kubernetes
-
-Use appropriate delays for container orchestration:
-
-```javascript
-import closeWithGrace from 'close-with-grace';
-
-// Kubernetes sends SIGTERM, then waits terminationGracePeriodSeconds (default 30s)
-// Set delay slightly lower to ensure clean exit
-closeWithGrace({delay: 25000}, async({signal}) => {
-  console.log(`${signal} received`);
-
-  // Mark as not ready immediately
-  isShuttingDown = true;
-
-  // Wait for in-flight requests (k8s stops sending new traffic after SIGTERM)
-  await new Promise((r) => setTimeout(r, 5000));
-
-  // Close resources
-  await server.close();
-  await db.end();
 });
 ```
 

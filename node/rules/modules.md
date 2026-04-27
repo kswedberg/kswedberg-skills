@@ -47,19 +47,9 @@ import config from './config.json' with {type: 'json'};
 import {helper as helperNoExtension} from './helper';
 ```
 
-## Barrel Exports
+## Avoid Barrel Exports
 
-Use index files to simplify imports:
-
-```javascript
-// src/utils/index.js
-export {formatDate, parseDate} from './date.js';
-export {formatCurrency} from './currency.js';
-export {validateEmail} from './validation.js';
-
-// Consumer
-import {formatDate, formatCurrency} from './utils/index.js';
-```
+Don't use index files to simplify imports. Stick to the exact file path.
 
 ## Default vs Named Exports
 
